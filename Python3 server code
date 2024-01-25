@@ -1,0 +1,19 @@
+# echo_server.py
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+class EchoHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        message = "Hello, this is an echo message!\n"
+        self.wfile.write(message.encode("utf-8"))
+
+def run(server_class=HTTPServer, handler_class=EchoHandler, port=8080):
+    server_address = ("", port)
+    httpd = server_class(server_address, handler_class)
+    print("Starting echo server on port {}...".format(port))
+    httpd.serve_forever()
+
+if __name__ == "__main__":
+    run()
